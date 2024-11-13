@@ -48,9 +48,9 @@ app.post('/api/items', async (req, res) => {
   }
 });
 
-app.get("/",(req,res)=>{ 
-  res.status(200).json({message:"todo okey"})
-})
+app.get('/', (req, res) => {
+  res.send('¡Hola, mundo!');
+});
 
 // Iniciar el servidor
 app.listen(PORT, () => {
