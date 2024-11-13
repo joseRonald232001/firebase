@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const admin = require('firebase-admin');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 const serviceAccount = {
   type: process.env.FIREBASE_TYPE,
@@ -22,9 +21,6 @@ const serviceAccount = {
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
-const db = admin.firestore();
-
-app.use(express.json());
 
 // Endpoint para obtener todos los documentos
 app.get('/api/items', async (req, res) => {
@@ -48,11 +44,26 @@ app.post('/api/items', async (req, res) => {
   }
 });
 
+
+
+const db = admin.firestore();
+
+
+const port = process.env.PORT || 3000;
+
 app.get('/', (req, res) => {
   res.send('¡Hola, mundo!');
 });
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+app.get('/productos', (req, res) => {
+  const productos = [
+    { id: 1, nombre: 'Camiseta', precio: 19.99, descripcion: 'Camiseta de algodón de alta calidad' },
+    { id: 2, nombre: 'Pantalón', precio: 39.99, descripcion: 'Pantalón de mezclilla cómodo y resistente' },
+    { id: 3, nombre: 'Zapatos', precio: 59.99, descripcion: 'Zapatos deportivos para todo tipo de clima' }
+  ];
+
+  res.json({ productos });
+});
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
 });
